@@ -1,0 +1,50 @@
+package src.controller;
+
+import src.dao.PieceJustificativeDAO;
+import src.model.PieceJustificative;
+import src.utils.SessionManager;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Gère les pièces justificatives rattachées à une demande.
+ *
+ * Règles métier :
+ *  - Ajout : étudiant (sur ses propres demandes) ou admin.
+ *  - Suppression : admin uniquement (pour trace/archivage).
+ *  - Consultation : tout utilisateur connecté.
+ */
+public class PieceJustificativeController {
+
+    private PieceJustificativeDAO pieceDAO;
+
+    public PieceJustificativeController() {
+        this.pieceDAO = new PieceJustificativeDAO();
+    }
+
+    // Ajoute une pièce justificative à une demande
+    public boolean ajouterPiece(PieceJustificative piece, int demandeId) {
+        if (!SessionManager.isLoggedIn()) return false;
+        if (piece == null) return false;
+        return pieceDAO.create(piece, demandeId);
+    }
+
+    // Supprime une pièce justificative — admin uniquement
+    public boolean supprimerPiece(int pieceId) {
+        if (!SessionManager.isAdmin()) return false;
+        return pieceDAO.delete(pieceId);
+    }
+
+    // Liste les pièces justificatives d'une demande
+    public List<PieceJustificative> listerPieces(int demandeId) {
+        if (!SessionManager.isLoggedIn()) return new ArrayList<>();
+        return pieceDAO.findByDemande(demandeId);
+    }
+
+    // Consulte une pièce par son id
+    public PieceJustificative consulterPiece(int pieceId) {
+        if (!SessionManager.isLoggedIn()) return null;
+        return pieceDAO.findById(pieceId);
+    }
+}
