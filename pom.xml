@@ -31,6 +31,16 @@
     <build>
         <sourceDirectory>${project.basedir}</sourceDirectory>
 
+        <resources>
+            <resource>
+                <directory>${project.basedir}</directory>
+                <includes>
+                    <include>src/**/*.fxml</include>
+                    <include>src/**/*.css</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <!-- Compiler — Java 17 -->
             <plugin>
@@ -78,7 +88,7 @@
             </plugin>
         </plugins>
     </build>
-
+    
     <dependencies>
         <!-- ======================== JavaFX ======================== -->
         <dependency>

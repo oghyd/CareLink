@@ -159,14 +159,14 @@ INSERT INTO users (nom, prenom, email, mot_de_passe, actif, role, fonction)
 VALUES ('Admin', 'CareLink', 'admin@carelink.ma', 'admin123', TRUE, 'admin', 'Responsable inclusion');
 
 -- ── Active students (id=2,3,4) — can log in immediately ─────
---    Login: ines@carelink.ma / test123  (etc.)
+--    Login: etud1@carelink.ma / test123  (etc.)
 
 INSERT INTO users (nom, prenom, email, mot_de_passe, actif, role, matricule, type_handicap, telephone)
-VALUES²
-    ('Etudiant1',  'etud1',     'ines@carelink.ma',      'test123', TRUE, 'etudiant', 'MAT-2025-001', 'Moteur',  '0611111111'),
-    ('Etudiant2',   'etud2',     'mona@carelink.ma',      'test123', TRUE, 'etudiant', 'MAT-2025-002', 'Visuel',  '0622222222'),
-    ('Etudiant3',   'etud3',     'amani@carelink.ma',      'test123', TRUE, 'etudiant', 'MAT-2025-003', 'Visuel',  '0622222222'),
-    ('Testeur',   'Etudiant', 'etudiant@carelink.ma',  'etudiant123', TRUE, 'etudiant', 'MAT-2025-004', 'Auditif', '0600000000');
+VALUES
+    ('Etudiant1', 'etud1', 'etud1@carelink.ma', 'test123', TRUE, 'etudiant', 'MAT-2025-001', 'Moteur',  '0611111111'),
+    ('Etudiant2', 'etud2', 'etud2@carelink.ma', 'test123', TRUE, 'etudiant', 'MAT-2025-002', 'Visuel',  '0622222222'),
+    ('Etudiant3', 'etud3', 'etud3@carelink.ma', 'test123', TRUE, 'etudiant', 'MAT-2025-003', 'Visuel',  '0622222222'),
+    ('Testeur', 'Etudiant', 'etudiant@carelink.ma',  'etudiant123', TRUE, 'etudiant', 'MAT-2025-004', 'Auditif', '0600000000');
 
 -- ── Inactive student (id=5) — tests activation workflow ──────
 --    Login blocked until admin activates
@@ -177,40 +177,40 @@ VALUES ('EnAttente', 'Compte', 'attente@carelink.ma', 'test123', FALSE, 'etudian
 -- ── Demandes — one per statut, spread across types and students ──
 
 INSERT INTO demandes (titre, description, type, date_creation, statut, etudiant_id) VALUES
-    ('Aménagement examen S1',      'Besoin de temps supplémentaire pour les examens du S1.',               'AUTRE',         '2025-09-15 10:00:00', 'CREE',                   2),
-    ('Rampe accès bâtiment B',     'Le bâtiment B n''a pas de rampe d''accès au 2e étage.',               'ACCESSIBILITE', '2025-10-01 14:30:00', 'EN_COURS_DE_TRAITEMENT', 2),
-    ('Logiciel lecteur écran',     'Demande d''installation de JAWS sur les postes de la bibliothèque.', 'LOGICIEL',      '2025-10-10 09:00:00', 'TRAITEE',                3),
-    ('Matériel adapté salle TP',   'Clavier et souris ergonomiques pour les séances de TP.',              'MATERIEL',      '2025-11-05 11:00:00', 'REJETE',                 4),
-    ('Accompagnement cours maths', 'Besoin d''un preneur de notes pour le module Analyse.',               'AUTRE',         '2026-01-20 08:30:00', 'CREE',                   3),
-    ('Accessibilité parking',      'Aucune place handicapée au parking du campus nord.',                  'ACCESSIBILITE', '2026-02-12 16:00:00', 'EN_COURS_DE_TRAITEMENT', 4);
+    ('Aménagement examen S1', 'Besoin de temps supplémentaire pour les examens du S1.', 'AUTRE', '2025-09-15 10:00:00', 'CREE', 2),
+    ('Rampe accès bâtiment B', 'Le bâtiment B n''a pas de rampe d''accès au 2e étage.', 'ACCESSIBILITE', '2025-10-01 14:30:00', 'EN_COURS_DE_TRAITEMENT', 2),
+    ('Logiciel lecteur écran', 'Demande d''installation de JAWS sur les postes de la bibliothèque.', 'LOGICIEL', '2025-10-10 09:00:00', 'TRAITEE', 3),
+    ('Matériel adapté salle TP', 'Clavier et souris ergonomiques pour les séances de TP.', 'MATERIEL', '2025-11-05 11:00:00', 'REJETE', 4),
+    ('Accompagnement cours maths', 'Besoin d''un preneur de notes pour le module Analyse.', 'AUTRE', '2026-01-20 08:30:00', 'CREE', 3),
+    ('Accessibilité parking', 'Aucune place handicapée au parking du campus nord.', 'ACCESSIBILITE', '2026-02-12 16:00:00', 'EN_COURS_DE_TRAITEMENT', 4);
 
 -- ── Pièces justificatives — at least one per demande for testing ──
 
 INSERT INTO pieces_justificatives (nom_fichier, chemin, date_ajout, demande_id) VALUES
-    ('certificat_medical.pdf',   '/uploads/pj/certificat_medical.pdf',   '2025-09-15 10:05:00', 1),
-    ('carte_handicap.pdf',       '/uploads/pj/carte_handicap.pdf',       '2025-09-15 10:06:00', 1),
-    ('photo_batiment_b.jpg',     '/uploads/pj/photo_batiment_b.jpg',     '2025-10-01 14:35:00', 2),
-    ('devis_jaws.pdf',           '/uploads/pj/devis_jaws.pdf',           '2025-10-10 09:10:00', 3),
-    ('ordonnance.pdf',           '/uploads/pj/ordonnance.pdf',           '2025-11-05 11:05:00', 4),
+    ('certificat_medical.pdf', '/uploads/pj/certificat_medical.pdf', '2025-09-15 10:05:00', 1),
+    ('carte_handicap.pdf', '/uploads/pj/carte_handicap.pdf', '2025-09-15 10:06:00', 1),
+    ('photo_batiment_b.jpg', '/uploads/pj/photo_batiment_b.jpg', '2025-10-01 14:35:00', 2),
+    ('devis_jaws.pdf', '/uploads/pj/devis_jaws.pdf', '2025-10-10 09:10:00', 3),
+    ('ordonnance.pdf', '/uploads/pj/ordonnance.pdf', '2025-11-05 11:05:00', 4),
     ('attestation_handicap.pdf', '/uploads/pj/attestation_handicap.pdf', '2026-01-20 08:35:00', 5);
 
 -- ── Réclamations — one per statut ────────────────────────────
 
 INSERT INTO reclamations (objet, description, date_creation, statut, etudiant_id) VALUES
-    ('Délai de réponse trop long',  'Ma demande #1 est sans réponse depuis 3 semaines.',             '2025-10-05 09:00:00', 'CREE',                   2),
-    ('Rampe toujours absente',      'La demande #2 a été acceptée mais rien n''a changé.',           '2025-11-15 13:00:00', 'EN_COURS_DE_TRAITEMENT', 2),
-    ('Logiciel non installé',       'JAWS est marqué traité mais les postes n''ont toujours rien.',  '2025-12-01 10:00:00', 'TRAITEE',                3),
-    ('Refus injustifié',            'Mon dossier matériel adapté a été refusé sans explication.',     '2025-12-20 15:00:00', 'REJETE',                 4);
+    ('Délai de réponse trop long', 'Ma demande #1 est sans réponse depuis 3 semaines.', '2025-10-05 09:00:00', 'CREE', 2),
+    ('Rampe toujours absente', 'La demande #2 a été acceptée mais rien n''a changé.', '2025-11-15 13:00:00', 'EN_COURS_DE_TRAITEMENT', 2),
+    ('Logiciel non installé', 'JAWS est marqué traité mais les postes n''ont toujours rien.', '2025-12-01 10:00:00', 'TRAITEE', 3),
+    ('Refus injustifié', 'Mon dossier matériel adapté a été refusé sans explication.', '2025-12-20 15:00:00', 'REJETE', 4);
 
 
 -- ============================================================
 --  VERIFICATION
 -- ============================================================
 
-SELECT 'users'                  AS tbl, COUNT(*) AS total FROM users
+SELECT 'users' AS tbl, COUNT(*) AS total FROM users
 UNION ALL
-SELECT 'demandes',              COUNT(*) FROM demandes
+SELECT 'demandes', COUNT(*) FROM demandes
 UNION ALL
-SELECT 'reclamations',          COUNT(*) FROM reclamations
+SELECT 'reclamations', COUNT(*) FROM reclamations
 UNION ALL
 SELECT 'pieces_justificatives', COUNT(*) FROM pieces_justificatives;

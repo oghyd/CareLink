@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="10"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="src.view.RegisterController">
+
+    <padding><Insets top="40" right="40" bottom="40" left="40"/></padding>
+
+    <Label text="Inscription étudiant">
+        <font><Font size="22"/></font>
+    </Label>
+
+    <TextField fx:id="nomField"          promptText="Nom"              maxWidth="300"/>
+    <TextField fx:id="prenomField"       promptText="Prénom"           maxWidth="300"/>
+    <TextField fx:id="emailField"        promptText="Email"            maxWidth="300"/>
+    <TextField fx:id="matriculeField"    promptText="Matricule"        maxWidth="300"/>
+    <TextField fx:id="telephoneField"    promptText="Téléphone"        maxWidth="300"/>
+    <TextField fx:id="typeHandicapField" promptText="Type de handicap" maxWidth="300"/>
+    <PasswordField fx:id="mdpField"      promptText="Mot de passe"     maxWidth="300"/>
+
+    <Label fx:id="statusLabel"/>
+
+    <Button text="S'inscrire" onAction="#handleRegister"/>
+
+    <Hyperlink text="Retour" onAction="#handleBack"/>
+
+</VBox>
