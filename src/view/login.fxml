@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox alignment="CENTER" spacing="12"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="src.view.LoginController">
+
+    <padding><Insets top="60" right="60" bottom="60" left="60"/></padding>
+
+    <Label text="CareLink">
+        <font><Font size="30"/></font>
+    </Label>
+
+    <TextField fx:id="emailField" promptText="Email" maxWidth="300"/>
+
+    <PasswordField fx:id="passwordField" promptText="Mot de passe" maxWidth="300"/>
+
+    <Label fx:id="errorLabel" style="-fx-text-fill: red;"/>
+
+    <Button text="Se connecter" onAction="#handleLogin"/>
+
+    <Hyperlink text="Créer un compte" onAction="#handleRegisterLink"/>
+
+</VBox>

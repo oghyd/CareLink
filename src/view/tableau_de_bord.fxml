@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
+
+<ScrollPane fitToWidth="true" style="-fx-background-color: transparent;"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="src.view.TableauDeBordController">
+
+    <VBox spacing="20">
+        <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+        <Label text="Tableau de bord" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+        <!-- Summary cards row -->
+        <HBox fx:id="cardsRow" spacing="16"/>
+
+        <!-- Charts row: two pie charts side by side -->
+        <HBox spacing="20">
+            <PieChart fx:id="demandesParStatutChart" title="Demandes par statut" prefHeight="280"
+                      HBox.hgrow="ALWAYS"/>
+            <PieChart fx:id="reclamationsParStatutChart" title="Réclamations par statut" prefHeight="280"
+                      HBox.hgrow="ALWAYS"/>
+        </HBox>
+
+        <BarChart fx:id="demandesParTypeChart" title="Demandes par type" prefHeight="260" legendVisible="false">
+            <xAxis><CategoryAxis label="Type"/></xAxis>
+            <yAxis><NumberAxis label="Nombre"/></yAxis>
+        </BarChart>
+
+        <Separator/>
+
+        <Label text="Statistiques annuelles" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+        <HBox spacing="12" alignment="CENTER_LEFT">
+            <Label text="Année :"/>
+            <ComboBox fx:id="yearPicker" onAction="#handleYearChange"/>
+        </HBox>
+
+        <BarChart fx:id="annualChart" title="Répartition annuelle" prefHeight="280">
+            <xAxis><CategoryAxis label="Statut"/></xAxis>
+            <yAxis><NumberAxis label="Nombre"/></yAxis>
+        </BarChart>
+
+    </VBox>
+</ScrollPane>

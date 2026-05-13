@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="14"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="src.view.HistoriqueController">
+
+    <padding><Insets top="10" right="10" bottom="10" left="10"/></padding>
+
+    <Label text="Historique / Archivage" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+
+    <HBox spacing="8">
+        <ToggleButton fx:id="tabDemandes" text="Demandes" onAction="#handleTabDemandes" selected="true"/>
+        <ToggleButton fx:id="tabReclamations" text="Réclamations" onAction="#handleTabReclamations"/>
+    </HBox>
+
+    <!-- Filter bar -->
+    <VBox spacing="8" style="-fx-background-color: white; -fx-padding: 12; -fx-background-radius: 8;">
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Mot-clé :"/>
+            <TextField fx:id="keywordField" promptText="Recherche..." prefWidth="200"/>
+            <Label text="Statut :"/>
+            <ComboBox fx:id="statutCombo"/>
+            <Label text="Type :"/>
+            <ComboBox fx:id="typeCombo"/>
+        </HBox>
+
+        <HBox spacing="10" alignment="CENTER_LEFT">
+            <Label text="Du :"/>
+            <DatePicker fx:id="dateDebut" prefWidth="140"/>
+            <Label text="Au :"/>
+            <DatePicker fx:id="dateFin" prefWidth="140"/>
+            <Button text="Rechercher" onAction="#handleSearch"/>
+            <Button text="Réinitialiser" onAction="#handleReset"/>
+        </HBox>
+
+    </VBox>
+
+    <!-- Results table (columns added by controller) -->
+    <TableView fx:id="resultTable" VBox.vgrow="ALWAYS"/>
+
+</VBox>
