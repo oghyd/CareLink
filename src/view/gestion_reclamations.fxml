@@ -19,11 +19,11 @@
       </TableView>
    </center>
    <bottom>
-      <HBox spacing="10" alignment="CENTER" prefHeight="50.0" BorderPane.alignment="CENTER">
-         <children>
-            <Button fx:id="btnTraiter" mnemonicParsing="false" onAction="#handleTraiter" text="Traiter" style="-fx-background-color: #27ae60; -fx-text-fill: white;" />
-            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#handleSupprimer" text="Supprimer" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" />
-         </children>
-      </HBox>
-   </bottom>
+    <HBox spacing="10" alignment="CENTER" prefHeight="50.0" BorderPane.alignment="CENTER">
+        <children>
+            <Button fx:id="btnTraiter" mnemonicParsing="false" onAction="#handleTraiter" text="Traiter" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;" />
+            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#handleSupprimer" text="Supprimer" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
+        </children>
+    </HBox>
+</bottom>
 </BorderPane>
