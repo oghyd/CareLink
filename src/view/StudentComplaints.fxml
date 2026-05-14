@@ -5,13 +5,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            stylesheets="@../css/application.css">
+            stylesheets="@../css/application.css"
+            fx:controller="src.view.StudentComplaintsController">
 
     <top>
         <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="12">
             <Label text="Mes Réclamations" styleClass="screen-title"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="btnNouvelleReclamation" text="+ Nouvelle Réclamation" styleClass="btn-primary"/>
+            <Button fx:id="btnNouvelleReclamation" text="+ Nouvelle Réclamation" onAction="#handleNouvelleReclamation" styleClass="btn-primary"/>
         </HBox>
     </top>
 
@@ -39,8 +40,8 @@
             <Label fx:id="labelError" styleClass="error-label"/>
 
             <HBox spacing="8" alignment="CENTER_RIGHT">
-                <Button fx:id="btnAnnuler" text="Annuler" styleClass="btn-secondary"/>
-                <Button fx:id="btnSubmitReclamation" text="Envoyer" styleClass="btn-primary"/>
+                <Button fx:id="btnAnnuler" text="Annuler" onAction="#handleAnnuler" styleClass="btn-secondary"/>
+                <Button fx:id="btnSubmitReclamation" text="Envoyer" onAction="#handleSubmit" styleClass="btn-primary"/>
             </HBox>
         </VBox>
     </right>

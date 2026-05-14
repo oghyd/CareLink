@@ -5,13 +5,14 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            stylesheets="@../css/application.css">
+            stylesheets="@../css/application.css"
+            fx:controller="src.view.StudentRequestsController">
 
     <top>
         <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="12">
             <Label text="Mes Demandes" styleClass="screen-title"/>
             <Region HBox.hgrow="ALWAYS"/>
-            <Button fx:id="btnNouvelleDemande" text="+ Nouvelle Demande" styleClass="btn-primary"/>
+            <Button fx:id="btnNouvelleDemande" text="+ Nouvelle Demande" onAction="#handleNouvelleDemande" styleClass="btn-primary"/>
         </HBox>
     </top>
 
@@ -42,15 +43,15 @@
 
             <Label text="Pièce justificative"/>
             <HBox spacing="8" alignment="CENTER_LEFT">
-                <Button fx:id="btnChoisirFichier" text="Choisir un fichier" styleClass="btn-secondary"/>
+                <Button fx:id="btnChoisirFichier" text="Choisir un fichier" onAction="#handleChoisirFichier" styleClass="btn-secondary"/>
                 <Label fx:id="labelFichier" text="Aucun fichier"/>
             </HBox>
 
             <Label fx:id="labelError" styleClass="error-label"/>
 
             <HBox spacing="8" alignment="CENTER_RIGHT">
-                <Button fx:id="btnAnnuler" text="Annuler" styleClass="btn-secondary"/>
-                <Button fx:id="btnSubmitDemande" text="Envoyer" styleClass="btn-primary"/>
+                <Button fx:id="btnAnnuler" text="Annuler" onAction="#handleAnnuler" styleClass="btn-secondary"/>
+                <Button fx:id="btnSubmitDemande" text="Envoyer" onAction="#handleSubmit" styleClass="btn-primary"/>
             </HBox>
         </VBox>
     </right>
