@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import src.controller.DemandeController;
 import src.controller.PieceJustificativeController;
 import src.model.*;
@@ -109,8 +110,19 @@ public class StudentRequestsController {
         chooser.setTitle("Sélectionner une pièce justificative");
         File file = chooser.showOpenDialog(formPanel.getScene().getWindow());
         if (file != null) {
-            selectedFiles.add(file);
-            labelFichier.setText(file.getName());
+        // Copier le fichier dans un dossier local de l'application
+            File dossierPJ = new File(System.getProperty("user.dir"), "uploads/pj");
+            dossierPJ.mkdirs();
+            File destination = new File(dossierPJ, file.getName());
+            try {
+                java.nio.file.Files.copy(file.toPath(), destination.toPath(),
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                selectedFiles.add(destination); // stocker la copie locale
+                labelFichier.setText(file.getName());
+            } catch (Exception e) {
+                selectedFiles.add(file); // fallback : stocker l'original
+                labelFichier.setText(file.getName());
+            }
         }
     }
 
@@ -167,20 +179,70 @@ public class StudentRequestsController {
 
     private void afficherPieces(int demandeId) {
         List<PieceJustificative> pieces = pieceController.listerPieces(demandeId);
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.setTitle("Pièces justificatives");
-        alert.setHeaderText("Fichiers attachés à cette demande");
+
+        Stage dialog = new Stage();
+        dialog.initModality(javafx.stage.Modality.APPLICATION_MODAL);
+        dialog.setTitle("Pièces justificatives");
+
+        javafx.scene.layout.VBox box = new javafx.scene.layout.VBox(8);
+        box.setPadding(new javafx.geometry.Insets(16));
+
         if (pieces.isEmpty()) {
-            alert.setContentText("Aucune pièce jointe.");
+            box.getChildren().add(new Label("Aucune pièce jointe."));
         } else {
-            StringBuilder sb = new StringBuilder();
             for (PieceJustificative p : pieces) {
-                sb.append("• ").append(p.getNomFichier()).append("\n");
+                Button fileBtn = new Button("📄 " + p.getNomFichier());
+                fileBtn.setOnAction(ev -> {
+                    File source = resoudreCheminFichier(p.getChemin(), p.getNomFichier());
+                    if (source == null || !source.exists()) {
+                        new Alert(Alert.AlertType.WARNING,
+                        "Fichier introuvable.\nChemin enregistré : " + p.getChemin() +
+                        "\nVérifiez que le fichier existe encore sur ce poste.").showAndWait();
+                        return;
+                    }
+                    FileChooser saveChooser = new FileChooser();
+                    saveChooser.setTitle("Télécharger la pièce justificative");
+                    saveChooser.setInitialFileName(p.getNomFichier());
+                    File dest = saveChooser.showSaveDialog(((javafx.scene.Node) ev.getSource()).getScene().getWindow());
+                    if (dest != null) {
+                        try {
+                            java.nio.file.Files.copy(source.toPath(), dest.toPath(),
+                            java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                            new Alert(Alert.AlertType.INFORMATION,
+                            "Fichier téléchargé avec succès.").showAndWait();
+                        } catch (Exception ex) {
+                            new Alert(Alert.AlertType.ERROR,
+                            "Erreur lors du téléchargement : " + ex.getMessage()).showAndWait();
+                        }
+                    }
+                });
+                box.getChildren().add(fileBtn);
             }
-            alert.setContentText(sb.toString());
         }
-        alert.showAndWait();
+
+        dialog.setScene(new javafx.scene.Scene(box, 400, 300));
+        dialog.show();
     }
+
+private File resoudreCheminFichier(String chemin, String nomFichier) {
+    // 1. Chemin absolu direct
+    File f = new File(chemin);
+    if (f.isAbsolute() && f.exists()) return f;
+
+    // 2. Chemin relatif depuis le répertoire de travail
+    f = new File(System.getProperty("user.dir"), chemin);
+    if (f.exists()) return f;
+
+    // 3. Chemin relatif depuis le dossier home de l'utilisateur
+    f = new File(System.getProperty("user.home"), chemin);
+    if (f.exists()) return f;
+
+    // 4. Juste le nom du fichier dans le dossier uploads/pj local
+    f = new File(System.getProperty("user.dir"), "uploads/pj/" + nomFichier);
+    if (f.exists()) return f;
+
+    return null;
+}
 
     private void refreshTable() {
         ObservableList<Demande> data = FXCollections.observableArrayList(demandeController.listerMesDemandes());

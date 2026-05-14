@@ -54,6 +54,7 @@ public class ShellController {
         } else {
             roleLabel.setText("Étudiant");
             hide(btnTableauDeBord, btnComptes, btnDemandes, btnReclamations, btnHistorique);
+            loadContent("StudentRequests.fxml");
         }
     }
 
