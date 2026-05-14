@@ -104,16 +104,16 @@ CREATE TABLE pieces_justificatives (
 -- ── Admin (id=1) — Login: admin@carelink.ma / admin123
 
 INSERT INTO users (nom, prenom, email, mot_de_passe, actif, role, fonction)
-VALUES ('Admin', 'CareLink', 'admin@carelink.ma', 'admin123', TRUE, 'admin', 'Responsable inclusion');
+VALUES ('Admin', 'CareLink', 'admin@carelink.ma', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', TRUE, 'admin', 'Responsable inclusion');
 
 -- ── Active students (id=2,3,4,5)
 
 INSERT INTO users (nom, prenom, email, mot_de_passe, actif, role, matricule, type_handicap, telephone)
 VALUES
-    ('Etudiant1', 'etud1', 'etud1@carelink.ma', 'test123', TRUE, 'etudiant', 'MAT-2025-001', 'Moteur',  '0611111111'),
-    ('Etudiant2', 'etud2', 'etud2@carelink.ma', 'test123', TRUE, 'etudiant', 'MAT-2025-002', 'Visuel',  '0622222222'),
-    ('Etudiant3', 'etud3', 'etud3@carelink.ma', 'test123', TRUE, 'etudiant', 'MAT-2025-003', 'Visuel',  '0622222222'),
-    ('Testeur', 'Etudiant', 'etudiant@carelink.ma',  'etudiant123', TRUE, 'etudiant', 'MAT-2025-004', 'Auditif', '0600000000');
+    ('Etudiant1', 'etud1', 'etud1@carelink.ma', 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae', TRUE, 'etudiant', 'MAT-2025-001', 'Moteur',  '0611111111'),
+    ('Etudiant2', 'etud2', 'etud2@carelink.ma', 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae', TRUE, 'etudiant', 'MAT-2025-002', 'Visuel',  '0622222222'),
+    ('Etudiant3', 'etud3', 'etud3@carelink.ma', 'ecd71870d1963316a97e3ac3408c9835ad8cf0f3c1bc703527c30265534f75ae', TRUE, 'etudiant', 'MAT-2025-003', 'Visuel',  '0622222222'),
+    ('Testeur', 'Etudiant', 'etudiant@carelink.ma',  '36432aa0a54a06c13ca2ff16cef78ca66e1cd5fa869f36791a79bc4f4c5d8120', TRUE, 'etudiant', 'MAT-2025-004', 'Auditif', '0600000000');
 
 -- ── Inactive student (id=6)
 

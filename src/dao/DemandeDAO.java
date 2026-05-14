@@ -262,7 +262,8 @@ public class DemandeDAO {
             rs.getString("description"),
             TypeDemande.valueOf(rs.getString("type")),
             rs.getDate("date_creation"),
-            StatutDemande.valueOf(rs.getString("statut"))
+            StatutDemande.valueOf(rs.getString("statut")), 
+            rs.getInt("etudiant_id")
         );
     }
 }

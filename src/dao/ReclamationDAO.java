@@ -235,7 +235,8 @@ public class ReclamationDAO {
             rs.getString("objet"),
             rs.getString("description"),
             rs.getDate("date_creation"),
-            StatutDemande.valueOf(rs.getString("statut"))
+            StatutDemande.valueOf(rs.getString("statut")), 
+            rs.getInt("etudiant_id")
         );
     }
 }

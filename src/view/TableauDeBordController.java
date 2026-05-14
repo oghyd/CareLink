@@ -151,11 +151,11 @@ public class TableauDeBordController {
 
     private String formatStatut(StatutDemande s) {
         switch (s) {
-            case CREE:                   return "Créée";
+            case CREE: return "Créée";
             case EN_COURS_DE_TRAITEMENT: return "En cours";
-            case TRAITEE:                return "Traitée";
-            case REJETE:                 return "Rejetée";
-            default:                     return s.name();
+            case TRAITEE: return "Traitée";
+            case REJETE: return "Rejetée";
+            default: return s.name();
         }
     }
 
@@ -164,8 +164,8 @@ public class TableauDeBordController {
             case AMENAGEMENT_EXAMEN: return "Aménagement d'examen"; 
             case ACCOMPAGNEMENT: return "Accompagnement";
             case ACCESSIBILITE: return "Accessibilité";
-            case AUTRE:         return "Autre";
-            default:            return t.name();
+            case AUTRE: return "Autre";
+            default: return t.name();
         }
         
         

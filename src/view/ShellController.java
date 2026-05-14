@@ -59,28 +59,17 @@ public class ShellController {
 
     // Student screens (Ines)
 
-    @FXML private void showMesDemandes()     { loadContent("StudentRequests.fxml"); }
+    @FXML private void showMesDemandes() { loadContent("StudentRequests.fxml"); }
     @FXML private void showMesReclamations() { loadContent("StudentComplaints.fxml"); }
-    @FXML private void showMonProfil()       { loadContent("StudentProfile.fxml"); }
+    @FXML private void showMonProfil() { loadContent("StudentProfile.fxml"); }
 
     // Admin screens (Omar + Idriss)
 
-    @FXML private void showTableauDeBord()   { loadContent("tableau_de_bord.fxml"); }
-@FXML 
-private void showComptes() { 
-    loadContent("gestion_comptes.fxml"); 
-}
-    @FXML 
-private void showDemandes() { 
-    loadContent("gestion_demandes.fxml"); 
-}
-
-@FXML 
-private void showReclamations() { 
-    loadContent("gestion_reclamations.fxml"); 
-}
-
-@FXML private void showHistorique()      { loadContent("historique.fxml"); }
+    @FXML private void showTableauDeBord() { loadContent("tableau_de_bord.fxml"); }
+    @FXML private void showComptes() { loadContent("gestion_comptes.fxml"); }
+    @FXML private void showDemandes() { loadContent("gestion_demandes.fxml"); }
+    @FXML private void showReclamations() { loadContent("gestion_reclamations.fxml"); }
+    @FXML private void showHistorique() { loadContent("historique.fxml"); }
 
 
     @FXML
@@ -89,14 +78,6 @@ private void showReclamations() {
         MainApp.loadScreen("login.fxml");
     }
 
-    // ── Content loading ──
-    // When a real screen FXML is ready, replace showPlaceholder() with loadContent().
-    // Example: private void showMesDemandes() { loadContent("mes_demandes.fxml"); }
-
-    /**
-     * Loads an FXML file into the content area.
-     * This is how Ines and Idriss plug their screens in.
-     */
     public void loadContent(String fxmlFile) {
         try {
             Node content = FXMLLoader.load(getClass().getResource(fxmlFile));

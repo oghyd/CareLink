@@ -95,7 +95,7 @@ public class HistoriqueController {
         doSearch();
     }
 
-    @SuppressWarnings("unchecked")
+    
     private void doSearch() {
         String keyword = keywordField.getText().trim();
         StatutDemande statut = parseStatut(statutCombo.getValue());
@@ -123,7 +123,6 @@ public class HistoriqueController {
     }
 
 
-    @SuppressWarnings("unchecked")
     private void buildDemandeColumns() {
         resultTable.getColumns().clear();
 
@@ -148,7 +147,6 @@ public class HistoriqueController {
         resultTable.getColumns().addAll(id, titre, type, statut, date);
     }
 
-    @SuppressWarnings("unchecked")
     private void buildReclamationColumns() {
         resultTable.getColumns().clear();
 

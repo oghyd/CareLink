@@ -7,8 +7,10 @@ import src.model.Demande;
 import src.model.Reclamation;
 import src.model.StatutDemande;
 import src.model.TypeDemande;
+import src.utils.CsvExporter;
 import src.utils.SessionManager;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
@@ -17,8 +19,7 @@ import java.util.Map;
 /**
  * Fournit les chiffres du tableau de bord et les statistiques.
  *
- * Toutes les méthodes sont admin only : les stats servent au pilotage de la
- * politique d'inclusion.
+ * Toutes les méthodes sont admin only.
  */
 public class StatistiquesController {
 
@@ -32,7 +33,6 @@ public class StatistiquesController {
         this.etudiantDAO = new EtudiantDAO();
     }
 
-    // Compte toutes les demandes, groupées par statut
     public Map<StatutDemande, Integer> getNombreDemandesParStatut() {
         Map<StatutDemande, Integer> stats = new EnumMap<>(StatutDemande.class);
         if (!SessionManager.isAdmin()) return stats;
@@ -42,7 +42,6 @@ public class StatistiquesController {
         return stats;
     }
 
-    // Compte toutes les réclamations, groupées par statut
     public Map<StatutDemande, Integer> getNombreReclamationsParStatut() {
         Map<StatutDemande, Integer> stats = new EnumMap<>(StatutDemande.class);
         if (!SessionManager.isAdmin()) return stats;
@@ -52,7 +51,6 @@ public class StatistiquesController {
         return stats;
     }
 
-    // Compte les demandes par type
     public Map<TypeDemande, Integer> getNombreDemandesParType() {
         Map<TypeDemande, Integer> stats = new EnumMap<>(TypeDemande.class);
         if (!SessionManager.isAdmin()) return stats;
@@ -62,25 +60,21 @@ public class StatistiquesController {
         return stats;
     }
 
-    // Total de demandes
     public int getTotalDemandes() {
         if (!SessionManager.isAdmin()) return 0;
         return demandeDAO.findAll().size();
     }
 
-    // Total de réclamations
     public int getTotalReclamations() {
         if (!SessionManager.isAdmin()) return 0;
         return reclamationDAO.findAll().size();
     }
 
-    // Total d'étudiants inscrits
     public int getTotalEtudiants() {
         if (!SessionManager.isAdmin()) return 0;
         return etudiantDAO.findAll().size();
     }
 
-    // Statistiques annuelles : demandes par statut pour une année
     public Map<StatutDemande, Integer> getStatistiquesDemandesAnnuelles(int annee) {
         Map<StatutDemande, Integer> stats = new EnumMap<>(StatutDemande.class);
         if (!SessionManager.isAdmin()) return stats;
@@ -93,7 +87,6 @@ public class StatistiquesController {
         return stats;
     }
 
-    // Statistiques annuelles : réclamations par statut pour une année
     public Map<StatutDemande, Integer> getStatistiquesReclamationsAnnuelles(int annee) {
         Map<StatutDemande, Integer> stats = new EnumMap<>(StatutDemande.class);
         if (!SessionManager.isAdmin()) return stats;
@@ -106,7 +99,6 @@ public class StatistiquesController {
         return stats;
     }
 
-    // Résumé global du tableau de bord : un paquet de compteurs pour l'écran Dashboard Admin
     public Map<String, Integer> consulterTableauDeBord() {
         Map<String, Integer> dashboard = new HashMap<>();
         if (!SessionManager.isAdmin()) return dashboard;
@@ -119,5 +111,55 @@ public class StatistiquesController {
         dashboard.put("demandesCrees", demandeDAO.countByStatut(StatutDemande.CREE));
         dashboard.put("demandesRejetees", demandeDAO.countByStatut(StatutDemande.REJETE));
         return dashboard;
+    }
+
+    // ===========================
+    //          EXPORT
+    // ===========================
+
+    public boolean exporterTableauDeBordCsv(String filePath) {
+        if (!SessionManager.isAdmin()) return false;
+        Map<String, Integer> dashboard = consulterTableauDeBord();
+        String[] headers = { "Indicateur", "Valeur" };
+        List<String[]> rows = new ArrayList<>();
+        for (Map.Entry<String, Integer> e : dashboard.entrySet()) {
+            rows.add(new String[] { e.getKey(), String.valueOf(e.getValue()) });
+        }
+        return CsvExporter.export(filePath, headers, rows);
+    }
+
+    public boolean exporterStatistiquesParStatutCsv(String filePath) {
+        if (!SessionManager.isAdmin()) return false;
+        Map<StatutDemande, Integer> demandes = getNombreDemandesParStatut();
+        Map<StatutDemande, Integer> reclamations = getNombreReclamationsParStatut();
+
+        String[] headers = { "Statut", "Nombre demandes", "Nombre réclamations" };
+        List<String[]> rows = new ArrayList<>();
+        for (StatutDemande s : StatutDemande.values()) {
+            rows.add(new String[] {
+                s.name(),
+                String.valueOf(demandes.getOrDefault(s, 0)),
+                String.valueOf(reclamations.getOrDefault(s, 0))
+            });
+        }
+        return CsvExporter.export(filePath, headers, rows);
+    }
+
+    public boolean exporterStatistiquesAnnuellesCsv(String filePath, int annee) {
+        if (!SessionManager.isAdmin()) return false;
+        Map<StatutDemande, Integer> demandes = getStatistiquesDemandesAnnuelles(annee);
+        Map<StatutDemande, Integer> reclamations = getStatistiquesReclamationsAnnuelles(annee);
+
+        String[] headers = { "Année", "Statut", "Nombre demandes", "Nombre réclamations" };
+        List<String[]> rows = new ArrayList<>();
+        for (StatutDemande s : StatutDemande.values()) {
+            rows.add(new String[] {
+                String.valueOf(annee),
+                s.name(),
+                String.valueOf(demandes.getOrDefault(s, 0)),
+                String.valueOf(reclamations.getOrDefault(s, 0))
+            });
+        }
+        return CsvExporter.export(filePath, headers, rows);
     }
 }
