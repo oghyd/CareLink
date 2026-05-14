@@ -1,8 +1,8 @@
 package src.model;
 
 public enum TypeDemande {
-    MATERIEL,
-    LOGICIEL,
-    ACCESSIBILITE,
+    AMENAGEMENT_EXAMEN, 
+    ACCOMPAGNEMENT, 
+    ACCESSIBILITE, 
     AUTRE
 }
