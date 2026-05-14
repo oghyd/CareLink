@@ -57,9 +57,9 @@ public class ShellController {
 
     // Student screens (Ines)
 
-    @FXML private void showMesDemandes()     { showPlaceholder("Mes demandes — Ines"); }
-    @FXML private void showMesReclamations() { showPlaceholder("Mes réclamations — Ines"); }
-    @FXML private void showMonProfil()       { showPlaceholder("Mon profil — Ines"); }
+    @FXML private void showMesDemandes()     { loadContent("StudentRequests.fxml"); }
+    @FXML private void showMesReclamations() { loadContent("StudentComplaints.fxml"); }
+    @FXML private void showMonProfil()       { loadContent("StudentProfile.fxml"); }
 
     // Admin screens (Omar + Idriss)
 
