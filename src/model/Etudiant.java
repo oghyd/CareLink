@@ -14,14 +14,18 @@ public class Etudiant extends User {
     }
 
     public String getMatricule() { return matricule; }
-    public void setMatricule(String matricule) { this.matricule = matricule; }
+    public void setMatricule(String matricule) {
+         this.matricule = matricule; }
     public String getTypeHandicap() { return typeHandicap; }
-    public void setTypeHandicap(String typeHandicap) { this.typeHandicap = typeHandicap; }
+    public void setTypeHandicap(String typeHandicap) {
+         this.typeHandicap = typeHandicap; }
     public String getTelephone() { return telephone; }
-    public void setTelephone(String telephone) { this.telephone = telephone; }
+    public void setTelephone(String telephone) { 
+        this.telephone = telephone; }
 
     @Override
-    public boolean seConnecter(String email, String motDePasse) { return false; }
+    public boolean seConnecter(String email, String motDePasse) { 
+        return false; }
     @Override
     public void seDeconnecter() { }
     @Override

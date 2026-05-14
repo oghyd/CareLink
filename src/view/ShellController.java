@@ -5,6 +5,8 @@
 
 package src.view;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -64,10 +66,21 @@ public class ShellController {
     // Admin screens (Omar + Idriss)
 
     @FXML private void showTableauDeBord()   { loadContent("tableau_de_bord.fxml"); }
-    @FXML private void showComptes()         { showPlaceholder("Gestion des comptes — Idriss"); }
-    @FXML private void showDemandes()        { showPlaceholder("Gestion des demandes — Idriss"); }
-    @FXML private void showReclamations()    { showPlaceholder("Gestion des réclamations — Idriss"); }
-    @FXML private void showHistorique()      { loadContent("historique.fxml"); }
+@FXML 
+private void showComptes() { 
+    loadContent("gestion_comptes.fxml"); 
+}
+    @FXML 
+private void showDemandes() { 
+    loadContent("gestion_demandes.fxml"); 
+}
+
+@FXML 
+private void showReclamations() { 
+    loadContent("gestion_reclamations.fxml"); 
+}
+
+@FXML private void showHistorique()      { loadContent("historique.fxml"); }
 
 
     @FXML
@@ -106,4 +119,5 @@ public class ShellController {
             btn.setManaged(false); // removes from layout entirely
         }
     }
+
 }

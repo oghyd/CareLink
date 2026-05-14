@@ -14,14 +14,25 @@ public class Admin extends User {
     public void setFonction(String fonction) { this.fonction = fonction; }
 
     @Override
-    public boolean seConnecter(String email, String motDePasse) { return false; }
+    public boolean seConnecter(String email, String motDePasse) {
+         return false;
+         }
     @Override
     public void seDeconnecter() { }
+    
     @Override
-    public boolean modifierCompte(String nom, String prenom, String email, String motDePasse) { return false; }
+    public boolean modifierCompte(String nom, String prenom, String email, String motDePasse) { 
+        return false;
+     }
 
-    public List<Demande> listerDemandes() { return null; }
-    public boolean traiterDemande(int idDemande, String nouveauStatut) { return false; }
+    public List<Demande> listerDemandes() { 
+        return null;
+     }
+    public boolean traiterDemande(int idDemande, String nouveauStatut) { 
+        return false;
+     }
     public void consulterTableauDeBord() { }
-    public List<?> filtrerStatistiques(java.util.Date date, String type) { return null; }
+    public List<?> filtrerStatistiques(java.util.Date date, String type) {
+         return null;
+         }
 }
