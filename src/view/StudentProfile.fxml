@@ -5,7 +5,8 @@
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            stylesheets="@../css/application.css">
+            stylesheets="@../css/application.css"
+            fx:controller="src.view.StudentProfileController">
 
     <top>
         <HBox styleClass="top-bar">
@@ -41,7 +42,7 @@
 
                     <HBox spacing="10" alignment="CENTER_RIGHT">
                         <Label fx:id="labelStatus" styleClass="status-label"/>
-                        <Button fx:id="btnSave" text="Enregistrer" styleClass="btn-primary"/>
+                        <Button fx:id="btnSave" text="Enregistrer" onAction="#handleSave" styleClass="btn-primary"/>
                     </HBox>
 
                 </VBox>
