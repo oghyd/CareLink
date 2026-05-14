@@ -6,8 +6,10 @@ import src.model.Demande;
 import src.model.Reclamation;
 import src.model.StatutDemande;
 import src.model.TypeDemande;
+import src.utils.CsvExporter;
 import src.utils.SessionManager;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,13 +17,14 @@ import java.util.List;
 /**
  * Gère la consultation de l'historique et la recherche multicritère.
  *
- * Couvre à la fois les demandes et les réclamations (archivage complet).
- * Les filtrages sur date sont faits en mémoire (les DAOs n'exposent pas
- * de requête SQL par intervalle de dates pour l'instant).
+ * Couvre les demandes et les réclamations. Les filtrages sur date sont faits en
+ * mémoire (les DAOs n'exposent pas de requête SQL par intervalle pour l'instant).
  *
  * Toutes les méthodes sont admin only — l'archivage est un outil de pilotage.
  */
 public class ArchivageController {
+
+    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private DemandeDAO demandeDAO;
     private ReclamationDAO reclamationDAO;
@@ -31,28 +34,23 @@ public class ArchivageController {
         this.reclamationDAO = new ReclamationDAO();
     }
 
-    // Retourne toutes les demandes (historique complet)
     public List<Demande> consulterHistoriqueDemandes() {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
         return demandeDAO.findAll();
     }
 
-    // Retourne toutes les réclamations (historique complet)
     public List<Reclamation> consulterHistoriqueReclamations() {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
         return reclamationDAO.findAll();
     }
 
-    // Recherche multicritère sur les demandes.
-    // Tous les critères sont optionnels : null = pas de filtrage sur ce critère.
+    // Recherche multicritère sur les demandes. Critères null = pas de filtre.
     public List<Demande> rechercherDemandes(StatutDemande statut, TypeDemande type,
                                             Date dateDebut, Date dateFin) {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
 
-        List<Demande> resultats = demandeDAO.findAll();
         List<Demande> filtres = new ArrayList<>();
-
-        for (Demande d : resultats) {
+        for (Demande d : demandeDAO.findAll()) {
             if (statut != null && d.getStatut() != statut) continue;
             if (type != null && d.getType() != type) continue;
             if (dateDebut != null && d.getDateCreation().before(dateDebut)) continue;
@@ -62,15 +60,12 @@ public class ArchivageController {
         return filtres;
     }
 
-    // Recherche multicritère sur les réclamations.
     public List<Reclamation> rechercherReclamations(StatutDemande statut,
                                                      Date dateDebut, Date dateFin) {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
 
-        List<Reclamation> resultats = reclamationDAO.findAll();
         List<Reclamation> filtres = new ArrayList<>();
-
-        for (Reclamation r : resultats) {
+        for (Reclamation r : reclamationDAO.findAll()) {
             if (statut != null && r.getStatut() != statut) continue;
             if (dateDebut != null && r.getDateCreation().before(dateDebut)) continue;
             if (dateFin != null && r.getDateCreation().after(dateFin)) continue;
@@ -79,7 +74,6 @@ public class ArchivageController {
         return filtres;
     }
 
-    // Recherche textuelle (sur titre et description des demandes)
     public List<Demande> rechercherDemandesParMotCle(String motCle) {
         if (!SessionManager.isAdmin() || motCle == null || motCle.isEmpty()) {
             return new ArrayList<>();
@@ -96,7 +90,6 @@ public class ArchivageController {
         return resultats;
     }
 
-    // Recherche textuelle (sur objet et description des réclamations)
     public List<Reclamation> rechercherReclamationsParMotCle(String motCle) {
         if (!SessionManager.isAdmin() || motCle == null || motCle.isEmpty()) {
             return new ArrayList<>();
@@ -113,13 +106,62 @@ public class ArchivageController {
         return resultats;
     }
 
-    // Filtre spécifique par date (demandes)
     public List<Demande> filtrerDemandesParDate(Date dateDebut, Date dateFin) {
         return rechercherDemandes(null, null, dateDebut, dateFin);
     }
 
-    // Filtre spécifique par date (réclamations)
     public List<Reclamation> filtrerReclamationsParDate(Date dateDebut, Date dateFin) {
         return rechercherReclamations(null, dateDebut, dateFin);
+    }
+
+    // ===========================
+    //          EXPORT
+    // ===========================
+
+    public boolean exporterDemandesCsv(String filePath, List<Demande> demandes) {
+        if (!SessionManager.isAdmin()) return false;
+        if (demandes == null) demandes = demandeDAO.findAll();
+
+        String[] headers = { "ID", "Titre", "Description", "Type", "Statut", "Date création", "ID Étudiant" };
+        List<String[]> rows = new ArrayList<>();
+        for (Demande d : demandes) {
+            rows.add(new String[] {
+                String.valueOf(d.getId()),
+                d.getTitre() != null ? d.getTitre() : "",
+                d.getDescription() != null ? d.getDescription() : "",
+                d.getType() != null ? d.getType().name() : "",
+                d.getStatut() != null ? d.getStatut().name() : "",
+                d.getDateCreation() != null ? DATE_FORMAT.format(d.getDateCreation()) : "",
+                String.valueOf(d.getEtudiantId())
+            });
+        }
+        return CsvExporter.export(filePath, headers, rows);
+    }
+
+    public boolean exporterReclamationsCsv(String filePath, List<Reclamation> reclamations) {
+        if (!SessionManager.isAdmin()) return false;
+        if (reclamations == null) reclamations = reclamationDAO.findAll();
+
+        String[] headers = { "ID", "Objet", "Description", "Statut", "Date création", "ID Étudiant" };
+        List<String[]> rows = new ArrayList<>();
+        for (Reclamation r : reclamations) {
+            rows.add(new String[] {
+                String.valueOf(r.getId()),
+                r.getObjet() != null ? r.getObjet() : "",
+                r.getDescription() != null ? r.getDescription() : "",
+                r.getStatut() != null ? r.getStatut().name() : "",
+                r.getDateCreation() != null ? DATE_FORMAT.format(r.getDateCreation()) : "",
+                String.valueOf(r.getEtudiantId())
+            });
+        }
+        return CsvExporter.export(filePath, headers, rows);
+    }
+
+    public boolean exporterToutesDemandesCsv(String filePath) {
+        return exporterDemandesCsv(filePath, null);
+    }
+
+    public boolean exporterToutesReclamationsCsv(String filePath) {
+        return exporterReclamationsCsv(filePath, null);
     }
 }

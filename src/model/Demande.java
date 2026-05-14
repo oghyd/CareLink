@@ -1,6 +1,7 @@
 package src.model;
 
 import java.util.Date;
+import src.dao.DemandeDAO;
 
 public class Demande {
     private int id;
@@ -9,16 +10,23 @@ public class Demande {
     private TypeDemande type;
     private Date dateCreation;
     private StatutDemande statut;
-
-    public Demande(int id, String titre, String description, TypeDemande type, Date dateCreation, StatutDemande statut) {
+    private int etudiantId;
+    
+    public Demande(int id, String titre, String description, TypeDemande type, Date dateCreation, StatutDemande statut, int etudiantId) {
         this.id = id;
         this.titre = titre;
         this.description = description;
         this.type = type;
         this.dateCreation = dateCreation;
         this.statut = statut;
+        this.etudiantId = etudiantId;
     }
-
+    
+    public Demande(int id, String titre, String description, TypeDemande type,
+                   Date dateCreation, StatutDemande statut) {
+        this(id, titre, description, type, dateCreation, statut, 0);
+    }
+    
     public int getId() { return id; }
     public void setId(int id) { this.id = id; }
     public String getTitre() { return titre; }
@@ -31,8 +39,20 @@ public class Demande {
     public void setDateCreation(Date dateCreation) { this.dateCreation = dateCreation; }
     public StatutDemande getStatut() { return statut; }
     public void setStatut(StatutDemande statut) { this.statut = statut; }
+    public int getEtudiantId() { return etudiantId; }
+    public void setEtudiantId(int etudiantId) { this.etudiantId = etudiantId; }
+    
+    public boolean ajouter() {
+        return new DemandeDAO().create(this, this.etudiantId);
+    }
 
-    public boolean ajouter() { return false; }
-    public boolean modifier() { return false; }
-    public boolean changerStatut(StatutDemande nouveauStatut) { return false; }
+    public boolean modifier() {
+        return new DemandeDAO().update(this);
+    }
+
+    public boolean changerStatut(StatutDemande nouveauStatut) {
+        boolean ok = new DemandeDAO().changerStatut(this.id, nouveauStatut);
+        if (ok) this.statut = nouveauStatut;
+        return ok;
+    }
 }
