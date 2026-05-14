@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="src.view.GestionComptesController">
+   <center>
+      <TableView fx:id="tableComptes" prefHeight="204.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="50.0" text="ID" />
+          <TableColumn fx:id="colNom" prefWidth="150.0" text="Nom" />
+          <TableColumn fx:id="colPrenom" prefWidth="150.0" text="Prénom" />
+          <TableColumn fx:id="colEmail" prefWidth="200.0" text="Email" />
+          <TableColumn fx:id="colActif" prefWidth="100.0" text="Actif" />
+        </columns>
+      </TableView>
+   </center>
+   <bottom>
+      <HBox prefHeight="93.0" prefWidth="145.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#handleSupprimer" text="Supprimer" />
+            <Button fx:id="btnDesactiver" mnemonicParsing="false" onAction="#handleDesactiver" text="Désactiver" />
+            <Button fx:id="btnActiver" mnemonicParsing="false" onAction="#handleActiver" text="Activer" />
+         </children>
+      </HBox>
+   </bottom>
+</BorderPane>
