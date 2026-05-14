@@ -54,7 +54,7 @@ public class HistoriqueController {
         statutCombo.setItems(FXCollections.observableArrayList("Tous", "Créée", "En cours", "Traitée", "Rejetée"));
         statutCombo.setValue("Tous");
 
-        typeCombo.setItems(FXCollections.observableArrayList("Tous", "Matériel", "Logiciel", "Accessibilité", "Autre"));
+        typeCombo.setItems(FXCollections.observableArrayList("Tous", "Aménagement d'examen", "Accompagnement", "Accessibilité", "Autre"));
         typeCombo.setValue("Tous");
 
         // Initial load
@@ -185,8 +185,8 @@ public class HistoriqueController {
     private TypeDemande parseType(String label) {
         if (label == null || label.equals("Tous")) return null;
         switch (label) {
-            case "Matériel":      return TypeDemande.MATERIEL;
-            case "Logiciel":      return TypeDemande.LOGICIEL;
+            case "Aménagement d'examen": return TypeDemande.AMENAGEMENT_EXAMEN; 
+            case "Accompagnement": return TypeDemande.ACCOMPAGNEMENT;
             case "Accessibilité": return TypeDemande.ACCESSIBILITE;
             case "Autre":         return TypeDemande.AUTRE;
             default:              return null;
@@ -205,8 +205,8 @@ public class HistoriqueController {
 
     private String formatType(TypeDemande t) {
         switch (t) {
-            case MATERIEL:      return "Matériel";
-            case LOGICIEL:      return "Logiciel";
+            case AMENAGEMENT_EXAMEN: return "Aménagement d'examen"; 
+            case ACCOMPAGNEMENT: return "Accompagnement";
             case ACCESSIBILITE: return "Accessibilité";
             case AUTRE:         return "Autre";
             default:            return t.name();

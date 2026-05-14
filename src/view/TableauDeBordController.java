@@ -161,11 +161,13 @@ public class TableauDeBordController {
 
     private String formatType(TypeDemande t) {
         switch (t) {
-            case MATERIEL:      return "Matériel";
-            case LOGICIEL:      return "Logiciel";
+            case AMENAGEMENT_EXAMEN: return "Aménagement d'examen"; 
+            case ACCOMPAGNEMENT: return "Accompagnement";
             case ACCESSIBILITE: return "Accessibilité";
             case AUTRE:         return "Autre";
             default:            return t.name();
         }
+        
+        
     }
 }
