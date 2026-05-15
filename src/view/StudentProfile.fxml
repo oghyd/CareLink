@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@../css/application.css"
+            fx:controller="src.view.StudentProfileController">
+
+    <top>
+        <HBox styleClass="top-bar">
+            <Label text="Mon Profil" styleClass="screen-title"/>
+        </HBox>
+    </top>
+
+    <center>
+        <ScrollPane fitToWidth="true">
+            <content>
+                <VBox styleClass="profile-container" maxWidth="600" alignment="TOP_CENTER">
+
+                    <GridPane hgap="15" vgap="15">
+                        <Label text="Nom" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <TextField fx:id="fieldNom" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Prénom" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="fieldPrenom" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <Label text="Email" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextField fx:id="fieldEmail" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                        <Label text="Téléphone" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                        <TextField fx:id="fieldTelephone" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                        <Label text="Type de handicap" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                        <TextField fx:id="fieldHandicap" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+                        <Label text="Matricule" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+                        <TextField fx:id="fieldMatricule" editable="false" styleClass="field-readonly"
+                                   GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+                    </GridPane>
+
+                    <HBox spacing="10" alignment="CENTER_RIGHT">
+                        <Label fx:id="labelStatus" styleClass="status-label"/>
+                        <Button fx:id="btnSave" text="Enregistrer" onAction="#handleSave" styleClass="btn-primary"/>
+                    </HBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+
+</BorderPane>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            stylesheets="@../css/application.css"
+            fx:controller="src.view.StudentRequestsController">
+
+    <top>
+        <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="12">
+            <Label text="Mes Demandes" styleClass="screen-title"/>
+            <Region HBox.hgrow="ALWAYS"/>
+            <Button fx:id="btnNouvelleDemande" text="+ Nouvelle Demande" onAction="#handleNouvelleDemande" styleClass="btn-primary"/>
+        </HBox>
+    </top>
+
+    <center>
+        <TableView fx:id="tableDemandes" VBox.vgrow="ALWAYS">
+            <columns>
+                <TableColumn fx:id="colTitre" text="Titre" prefWidth="200"/>
+                <TableColumn fx:id="colType" text="Type" prefWidth="150"/>
+                <TableColumn fx:id="colStatut" text="Statut" prefWidth="150"/>
+                <TableColumn fx:id="colDate" text="Date" prefWidth="150"/>
+                <TableColumn fx:id="colActions" text="Actions" prefWidth="150"/>
+            </columns>
+        </TableView>
+    </center>
+
+    <right>
+        <VBox fx:id="formPanel" styleClass="form-panel" prefWidth="320" visible="false" managed="false">
+            <Label text="Nouvelle Demande" styleClass="form-title"/>
+
+            <Label text="Titre"/>
+            <TextField fx:id="fieldTitre" promptText="Titre de la demande"/>
+
+            <Label text="Description"/>
+            <TextArea fx:id="fieldDescription" promptText="Décrivez votre demande" prefRowCount="4"/>
+
+            <Label text="Type"/>
+            <ComboBox fx:id="comboType" maxWidth="Infinity"/>
+
+            <Label text="Pièce justificative"/>
+            <HBox spacing="8" alignment="CENTER_LEFT">
+                <Button fx:id="btnChoisirFichier" text="Choisir un fichier" onAction="#handleChoisirFichier" styleClass="btn-secondary"/>
+                <Label fx:id="labelFichier" text="Aucun fichier"/>
+            </HBox>
+
+            <Label fx:id="labelError" styleClass="error-label"/>
+
+            <HBox spacing="8" alignment="CENTER_RIGHT">
+                <Button fx:id="btnAnnuler" text="Annuler" onAction="#handleAnnuler" styleClass="btn-secondary"/>
+                <Button fx:id="btnSubmitDemande" text="Envoyer" onAction="#handleSubmit" styleClass="btn-primary"/>
+            </HBox>
+        </VBox>
+    </right>
+
+</BorderPane>
