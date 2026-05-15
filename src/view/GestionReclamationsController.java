@@ -1,9 +1,13 @@
 package src.view;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import javafx.scene.Scene;
+import javafx.geometry.Insets;
 import src.controller.ReclamationController;
 import src.model.Reclamation;
 import src.model.StatutDemande;
@@ -28,6 +32,41 @@ public class GestionReclamationsController {
         colDateCreation.setCellValueFactory(new PropertyValueFactory<>("dateCreation"));
 
         refreshTable();
+    }
+
+    @FXML
+    private void handleTableClick(MouseEvent event) {
+        if (event.getClickCount() == 2) {
+            Reclamation selected = tableReclamations.getSelectionModel().getSelectedItem();
+            if (selected != null) {
+                showReclamationDetails(selected);
+            }
+        }
+    }
+
+    private void showReclamationDetails(Reclamation reclamation) {
+        Stage dialog = new Stage();
+        dialog.setTitle("Détail de la réclamation #" + reclamation.getId());
+        
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(15));
+        
+        vbox.getChildren().addAll(
+            new Label("ID : " + reclamation.getId()),
+            new Label("Objet : " + reclamation.getObjet()),
+            new Label("Description : " + reclamation.getDescription()),
+            new Label("Statut : " + reclamation.getStatut()),
+            new Label("Date de création : " + reclamation.getDateCreation())
+        );
+        
+        Button btnFermer = new Button("Fermer");
+        btnFermer.setStyle("-fx-background-color: #7f8c8d; -fx-text-fill: white; -fx-cursor: hand;");
+        btnFermer.setOnAction(e -> dialog.close());
+        vbox.getChildren().add(btnFermer);
+        
+        Scene scene = new Scene(vbox, 450, 300);
+        dialog.setScene(scene);
+        dialog.showAndWait();
     }
 
     @FXML
