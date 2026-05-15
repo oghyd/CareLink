@@ -50,4 +50,9 @@ public class SessionManager {
     public static int getCurrentUserId() {
         return currentUser != null ? currentUser.getId() : -1;
     }
+
+    //Ajouter par idriss
+    public static boolean isCurrentUser(int userId) {
+    return currentUser != null && currentUser.getId() == userId;
+}
 }

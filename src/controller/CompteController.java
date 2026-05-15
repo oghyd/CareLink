@@ -16,9 +16,7 @@ import java.util.List;
  *
  * Règle métier (issue des UC) :
  *  - Compte créé par un Étudiant (auto-inscription) → actif = FALSE, en attente de validation admin.
- *    C'est déjà géré dans EtudiantDAO.create() qui insère avec actif=FALSE.
  *  - Compte créé directement par un Admin → actif = TRUE immédiatement.
- *    C'est déjà géré dans AdminDAO.create() et on force l'activation pour l'étudiant dans creerCompteEtudiantParAdmin().
  */
 public class CompteController {
 
@@ -32,73 +30,69 @@ public class CompteController {
         this.adminDAO = new AdminDAO();
     }
 
-    // Auto-inscription d'un étudiant (depuis la page Inscription).
-    // Le compte est créé INACTIF, un admin doit l'activer ensuite.
+    // Auto-inscription d'un étudiant (depuis la page Inscription)
     public boolean sInscrire(Etudiant etudiant) {
         if (etudiant == null) return false;
-        // EtudiantDAO.create() force actif=FALSE côté SQL
         return etudiantDAO.create(etudiant);
     }
 
-    // Création d'un compte étudiant par un admin : on crée puis on active dans la foulée.
+    // Création d'un compte étudiant par un admin
     public boolean creerCompteEtudiantParAdmin(Etudiant etudiant) {
-        if (!SessionManager.isAdmin()) return false; // admin only
+        if (!SessionManager.isAdmin()) return false;
         if (etudiant == null) return false;
 
         boolean created = etudiantDAO.create(etudiant);
         if (!created) return false;
 
-        // Récupère l'id fraîchement créé par matricule, puis active le compte
         Etudiant saved = etudiantDAO.findByMatricule(etudiant.getMatricule());
         if (saved == null) return false;
         return userDAO.setActif(saved.getId(), true);
     }
 
-    // Création d'un compte admin — admin only, compte actif par défaut
+    // Création d'un compte admin
     public boolean creerCompteAdmin(Admin admin) {
         if (!SessionManager.isAdmin()) return false;
         if (admin == null) return false;
-        // AdminDAO.create() force actif=TRUE côté SQL
         return adminDAO.create(admin);
     }
 
-    // Active un compte (typiquement un compte étudiant en attente) — admin only
+    // Active un compte
     public boolean activerCompte(int userId) {
         if (!SessionManager.isAdmin()) return false;
         return userDAO.setActif(userId, true);
     }
 
-    // Désactive un compte — admin only
+    // Désactive un compte
     public boolean desactiverCompte(int userId) {
         if (!SessionManager.isAdmin()) return false;
         return userDAO.setActif(userId, false);
     }
 
-    // Supprime un compte — admin only
+    // Supprime un compte
     public boolean supprimerCompte(int userId) {
         if (!SessionManager.isAdmin()) return false;
         return userDAO.delete(userId);
     }
 
-    // Liste tous les comptes (admins + étudiants) — admin only
+    // Liste tous les comptes
     public List<User> listerComptes() {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
         return userDAO.findAll();
     }
 
-    // Liste uniquement les étudiants — admin only
+    // Liste uniquement les étudiants
     public List<Etudiant> listerEtudiants() {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
         return etudiantDAO.findAll();
     }
 
-    // Liste uniquement les admins — admin only
+    // Liste uniquement les admins
     public List<Admin> listerAdmins() {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
         return adminDAO.findAll();
     }
 
-    // Liste les comptes en attente d'activation (étudiants inactifs) — admin only
+    // Liste les comptes en attente d'activation
     public List<Etudiant> listerComptesEnAttente() {
         if (!SessionManager.isAdmin()) return new ArrayList<>();
         List<Etudiant> enAttente = new ArrayList<>();
@@ -108,11 +102,10 @@ public class CompteController {
         return enAttente;
     }
 
-    // Modifier son propre compte (étudiant ou admin)
+    // Modifier son propre compte
     public boolean modifierMonCompte(User user) {
         if (!SessionManager.isLoggedIn()) return false;
         if (user == null) return false;
-        // On n'autorise la modification que sur son propre compte
         if (user.getId() != SessionManager.getCurrentUserId()) return false;
 
         if (user instanceof Etudiant) {
@@ -121,5 +114,30 @@ public class CompteController {
             return adminDAO.update((Admin) user);
         }
         return false;
+    }
+
+    // ============================================================
+    // MÉTHODES AJOUTÉES PAR IDRISS POUR GestionComptesController
+    // ============================================================
+
+    /**
+     * Crée un compte étudiant (actif = false, en attente d'activation)
+     * Appelé depuis l'interface admin quand il ajoute un étudiant
+     */
+    public boolean creerCompteEtudiant(String nom, String prenom, String email, String motDePasse,
+                                        String matricule, String typeHandicap, String telephone) {
+        Etudiant etudiant = new Etudiant(0, nom, prenom, email, motDePasse, false,
+                                          matricule, typeHandicap, telephone);
+        return etudiantDAO.create(etudiant);
+    }
+
+    /**
+     * Crée un compte admin (actif = true directement)
+     * Appelé depuis l'interface admin quand il ajoute un admin
+     */
+    public boolean creerCompteAdmin(String nom, String prenom, String email, String motDePasse,
+                                     String fonction) {
+        Admin admin = new Admin(0, nom, prenom, email, motDePasse, true, fonction);
+        return adminDAO.create(admin);
     }
 }

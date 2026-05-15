@@ -20,11 +20,13 @@
    </center>
    <bottom>
     <HBox spacing="10" alignment="CENTER" prefHeight="50.0" BorderPane.alignment="CENTER">
-        <children>
-            <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#handleSupprimer" text="Supprimer" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
-            <Button fx:id="btnDesactiver" mnemonicParsing="false" onAction="#handleDesactiver" text="Désactiver" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-cursor: hand;" />
-            <Button fx:id="btnActiver" mnemonicParsing="false" onAction="#handleActiver" text="Activer" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;" />
-        </children>
-    </HBox>
+    <children>
+        <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#handleAjouterCompte" text="Ajouter" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;" />
+        <Button fx:id="btnModifier" mnemonicParsing="false" onAction="#handleModifier" text="Modifier" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-cursor: hand;" />
+        <Button fx:id="btnSupprimer" mnemonicParsing="false" onAction="#handleSupprimer" text="Supprimer" style="-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-cursor: hand;" />
+        <Button fx:id="btnDesactiver" mnemonicParsing="false" onAction="#handleDesactiver" text="Désactiver" style="-fx-background-color: #f39c12; -fx-text-fill: white; -fx-cursor: hand;" />
+        <Button fx:id="btnActiver" mnemonicParsing="false" onAction="#handleActiver" text="Activer" style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-cursor: hand;" />
+    </children>
+</HBox>
 </bottom>
 </BorderPane>

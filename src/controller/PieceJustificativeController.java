@@ -47,4 +47,22 @@ public class PieceJustificativeController {
         if (!SessionManager.isLoggedIn()) return null;
         return pieceDAO.findById(pieceId);
     }
+
+    // ============================================================
+    // MÉTHODE AJOUTÉE PAR IDRISS POUR GestionDemandesController
+    // ============================================================
+
+    /**
+     * Récupère la première pièce jointe d'une demande
+     * (si une demande a plusieurs pièces, retourne la première)
+     * Appelée depuis GestionDemandesController.showDemandeDetails()
+     */
+    public PieceJustificative getPieceByDemande(int demandeId) {
+        if (!SessionManager.isLoggedIn()) return null;
+        List<PieceJustificative> pieces = pieceDAO.findByDemande(demandeId);
+        if (pieces != null && !pieces.isEmpty()) {
+            return pieces.get(0); // retourne la première pièce
+        }
+        return null;
+    }
 }
